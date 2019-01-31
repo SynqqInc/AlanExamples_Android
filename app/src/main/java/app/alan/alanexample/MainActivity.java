@@ -2,11 +2,11 @@ package app.alan.alanexample;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -14,6 +14,7 @@ import com.alan.alansdk.Alan;
 import com.alan.alansdk.BasicSdkListener;
 import com.alan.alansdk.ScriptMethodCallback;
 import com.alan.alansdk.alanbase.ConnectionState;
+import com.alan.alansdk.alanbase.DialogState;
 import com.alan.alansdk.button.AlanButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**You should also listen to the
+         * {@link com.alan.alansdk.AlanCallback#onDialogStateChanged(DialogState dialogState)
+         * to update visual state according to the dialog state
+         */
         View voiceBtn = findViewById(R.id.voice);
         voiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
