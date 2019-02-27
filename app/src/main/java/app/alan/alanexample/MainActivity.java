@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         Alan.enableLogging(true);
         sdk = Alan.getInstance();
 
+        //Insert your project key here from "Embed code" button on the tutor.alan.app page
         sdk.init("8e0b083e795c924d64635bba9c3571f42e956eca572e1d8b807a3e2338fdd0dc/stage");
 
         sdk.registerCallback(new MyCallback());
