@@ -31,7 +31,7 @@ class MainService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        alanSdk = Alan.getInstance()
+        alanSdk = Alan.getInstance(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

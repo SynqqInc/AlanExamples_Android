@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import com.alan.alansdk.Alan
 import com.alan.alansdk.BasicSdkListener
 import com.alan.alansdk.alanbase.ConnectionState
 import com.alan.alansdk.button.AlanButton
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,14 +23,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val initButton = findViewById<View>(R.id.init_button)
-        initButton.setOnClickListener {
+        init_button.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this@MainActivity,
                         arrayOf(Manifest.permission.RECORD_AUDIO),
                         PERMISSION_REQUEST_CODE)
             } else {
-                //       initAlanSDK();
+                       initAlanSDK();
             }
         }
 
@@ -52,10 +53,20 @@ class MainActivity : AppCompatActivity() {
                     Log.i("AlanResponse", "$methodName failed with: $error")
                 } else {
                     Log.i("AlanResponse", "$methodName response is: $response")
+                    Toast.makeText(this, "Response is: $response", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this@MainActivity,
+                    arrayOf(Manifest.permission.RECORD_AUDIO),
+                    PERMISSION_REQUEST_CODE)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -78,6 +89,8 @@ class MainActivity : AppCompatActivity() {
         alanButton = findViewById(R.id.alanBtn)
         alanButton!!.initSDK("8e0b083e795c924d64635bba9c3571f42e956eca572e1d8b807a3e2338fdd0dc/stage")
         //        alanButton.withConfig(sdk);
+        alanButton?.sdk?.record()
+        Toast.makeText(this, "Sdk inited successfully", Toast.LENGTH_SHORT).show()
     }
 
     internal inner class MyCallback : BasicSdkListener() {
