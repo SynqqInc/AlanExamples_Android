@@ -87,8 +87,10 @@ class MainActivity : AppCompatActivity() {
         //
         //        Link Alan button with sdk so it can listen to the dialog state and control voice interaction
         alanButton = findViewById(R.id.alanBtn)
-        alanButton!!.initSDK("8e0b083e795c924d64635bba9c3571f42e956eca572e1d8b807a3e2338fdd0dc/stage")
-        //        alanButton.withConfig(sdk);
+        alanButton!!.initSDK("wss://studio.alan-stage.app",
+                "bb42ab84666368c2e1b9fb493a3ca1dc2e956eca572e1d8b807a3e2338fdd0dc/stage",
+                null)
+
         alanButton?.sdk?.record()
         Toast.makeText(this, "Sdk inited successfully", Toast.LENGTH_SHORT).show()
     }
