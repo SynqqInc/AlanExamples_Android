@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.alan.alansdk.Alan
 import com.alan.alansdk.BasicSdkListener
 import com.alan.alansdk.alanbase.ConnectionState
+import com.alan.alansdk.alanbase.DialogState
 import com.alan.alansdk.button.AlanButton
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -53,7 +54,9 @@ class MainActivity : AppCompatActivity() {
                     Log.i("AlanResponse", "$methodName failed with: $error")
                 } else {
                     Log.i("AlanResponse", "$methodName response is: $response")
-                    Toast.makeText(this, "Response is: $response", Toast.LENGTH_SHORT).show()
+                    runOnUiThread {
+                        Toast.makeText(this, "Response is: $response", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -91,6 +94,7 @@ class MainActivity : AppCompatActivity() {
                 "bb42ab84666368c2e1b9fb493a3ca1dc2e956eca572e1d8b807a3e2338fdd0dc/stage",
                 null)
 
+        alanButton?.sdk?.registerCallback(MyCallback())
         alanButton?.sdk?.record()
         Toast.makeText(this, "Sdk inited successfully", Toast.LENGTH_SHORT).show()
     }
@@ -99,6 +103,13 @@ class MainActivity : AppCompatActivity() {
         override fun onConnectStateChanged(connectState: ConnectionState) {
             super.onConnectStateChanged(connectState)
             Log.i("AlanCallback", "Connection state changed -> " + connectState.name)
+        }
+
+        override fun onDialogStateChanged(dialogState: DialogState) {
+            super.onDialogStateChanged(dialogState)
+            if (dialogState == DialogState.IDLE) {
+                alanButton?.sdk?.record()
+            }
         }
     }
 
